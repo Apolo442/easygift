@@ -1,0 +1,153 @@
+.main {
+  width: 100%;
+  height: 120px;
+}
+
+.header {
+  justify-content: space-between;
+  backdrop-filter: blur(10px);
+  background: #00000099;
+  background-color: var(--brand-Epsilon);
+  border-bottom: 1px solid #ffffff1a;
+  box-shadow: 0 4px 30px #0000001a;
+  width: 100%;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.navContent {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.logo {
+  color: var(--brand-Delta);
+  font-size: 36px;
+  font-family: "DM Mono", monospace;
+  border-bottom: solid 4px var(--brand-Delta);
+  flex-shrink: auto;
+  margin-right: auto;
+  margin-left: 60px;
+}
+
+.button {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 200px;
+  font-size: 16px;
+  font-family: "DM Mono", monospace;
+  font-weight: 600;
+
+  color: var(--brand-Gamma);
+  border: 2px solid var(--brand-Gamma);
+  background-color: var(--brand-grey);
+  padding: 0.5rem 1rem;
+
+  border-radius: 8px;
+  transition: background-color 0.3s;
+  cursor: pointer;
+
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.button:hover {
+  color: var(--brand-Gamma);
+  border-color: var(--brand-Gamma);
+  background-color: var(--brand-Zeta);
+}
+
+@media (max-width: 768px) {
+  .header {
+    height: auto;
+    padding: 1rem 1rem;
+  }
+
+  .logo {
+    display: none;
+    margin-right: 0;
+  }
+
+  .navContent {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .nav {
+    width: 100%;
+    justify-content: center;
+    gap: 0.8rem;
+  }
+  .button {
+    padding: 8px 14px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .button {
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1366px) {
+  .header {
+    height: 140px;
+    padding: 0 1.5rem;
+  }
+
+  .navContent {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  .logo {
+    display: block;
+    font-size: 32px;
+    margin-right: auto;
+  }
+
+  .nav {
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: flex-end;
+  }
+
+  .button {
+    font-size: 15px;
+    padding: 0.4rem 0.8rem;
+    margin-top: 0;
+  }
+}
