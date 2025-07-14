@@ -30,7 +30,7 @@ function SignUp() {
       const cred = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(cred.user, { displayName: name });
       // Registro no Firestore
-      await setDoc(doc(db, "usuarios", cred.user.uid), {
+      await setDoc(doc(db, "users", cred.user.uid), {
         name,
         email,
         isAdmin: false,

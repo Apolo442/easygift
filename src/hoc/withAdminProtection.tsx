@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import styles from "./styles.module.css";
 import { useRouter } from "next/router";
 import { useAuth } from "@/hooks/AuthContext";
 
@@ -17,7 +18,12 @@ const withAdminProtection = (WrappedComponent: React.ComponentType) => {
     }, [user, loading, router]);
 
     if (loading || !user) {
-      return <p style={{ textAlign: "center" }}>Carregando...</p>;
+      return (
+        <div className={styles.loadingContainer}>
+          <div className={styles.spinner}></div>
+          <p className={styles.loadingText}>Carregando...</p>
+        </div>
+      );
     }
 
     return <WrappedComponent {...props} />;

@@ -1,0 +1,72 @@
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  font-size: 16px;
+  font-family: "DM Mono", monospace;
+  font-weight: 600;
+  color: var(--brand-Epsilon);
+  font-size: 26px;
+  font-family: "DM Mono", monospace;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.button {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 200px;
+  font-size: 16px;
+  font-family: "DM Mono", monospace;
+  font-weight: 600;
+
+  color: var(--brand-Epsilon);
+  border: 2px solid var(--brand-Zeta);
+  background-color: var(--brand-Gamma);
+  padding: 0.5rem 1rem;
+
+  border-radius: 8px;
+  transition: background-color 0.3s;
+  cursor: pointer;
+
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.button:hover {
+  color: var(--brand-Gamma);
+  border-color: var(--brand-Gamma);
+  background-color: var(--brand-Zeta);
+}
+
+/* Dashboard */
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2rem;
+}
+
+.board {
+  background-color: var(--brand-Epsilon);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  width: 915px;
+  height: 515px;
+  text-align: center;
+}

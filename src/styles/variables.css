@@ -1,13 +1,18 @@
 :root {
   --brand-Alpha: #748873;
   --brand-Beta: #d1a980;
-  --brand-Gamma: #e5e0d8;
-  /*  */
+  --brand-DeltaX: #e5e0d8;
   --brand-Delta: #f8f8f8;
+  /*  */
+  --brand-Gamma: #f8f8f8;
   --brand-Epsilon: hsl(235, 17%, 50%);
   --brand-Zeta: #98a1bc;
   --brand-Eta: #ded3c4;
   --brand-Theta: #f4ebd3;
+  /* teste */
+  --brand-Epsilon: #393e46;
+  --brand-Zeta: #222831;
   /*  */
   --brand-Error: #ef4444;
+  --brand-Black: #1f1f1f;
 }

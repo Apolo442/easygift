@@ -34,7 +34,7 @@ export default function Home() {
               }
               className={styles.button}
             >
-              {step === "welcome" ? "Criar Conta" : "Voltar para início"}
+              {step === "welcome" ? "Entrar" : "Voltar"}
             </button>
           </div>
         </div>

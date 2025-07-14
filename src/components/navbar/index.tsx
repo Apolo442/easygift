@@ -3,16 +3,28 @@ import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
 
 import Link from "next/link";
+import { useRouter } from "next/router";
 
+import { signOut } from "firebase/auth";
 import { useAuth } from "@/hooks/AuthContext";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "@/services/firebase";
+import { auth, db } from "@/services/firebase";
 
 function Navbar() {
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const { user } = useAuth();
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      router.push("/");
+    } catch (error) {
+      console.error("Erro ao fazer logout", error);
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,18 +45,23 @@ function Navbar() {
   }, [lastScrollY]);
 
   useEffect(() => {
-    const checkAdmin = async () => {
-      if (user) {
-        const ref = doc(db, "users", user.uid);
-        const snap = await getDoc(ref);
-        if (snap.exists()) {
-          setIsAdmin(snap.data().admin === true);
-        }
+    if (!user || loading) return;
+
+    const fetchUserData = async () => {
+      const docRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        console.log("isAdmin?", data.isAdmin);
+        setIsAdmin(data.isAdmin === true);
+      } else {
+        console.log("docSnap.exists() == False");
       }
     };
 
-    checkAdmin();
-  }, [user]);
+    fetchUserData();
+  }, [user, loading]);
 
   return (
     <header
@@ -65,11 +82,14 @@ function Navbar() {
           <Link className={styles.button} href="/galeria">
             Galeria
           </Link>
-          {isAdmin && (
+          {isAdmin === true && (
             <Link className={styles.button} href="/admin">
               Admin
             </Link>
           )}
+          <button className={styles.button} onClick={handleLogout}>
+            Sair
+          </button>
         </nav>
       </div>
     </header>
