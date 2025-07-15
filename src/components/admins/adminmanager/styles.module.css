@@ -82,6 +82,17 @@
   opacity: 1;
 }
 
+.filter {
+  color: var(--brand-Gamma);
+  border: 1px solid #d1d5db;
+  background-color: var(--brand-Epsilon);
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  width: 125px;
+  margin-bottom: 1.5rem;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
 .button {
   margin-top: 1rem;
   display: flex;
@@ -114,31 +125,114 @@
   background-color: var(--brand-Gamma);
 }
 
+.userItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid #ccc;
+  font-size: 14px;
+  color: var(--brand-Alpha);
+}
+
+.deleteButton {
+  background: transparent;
+  border: none;
+  color: red;
+  cursor: pointer;
+  font-size: 16px;
+  transition: transform 0.2s;
+}
+
+.deleteButton:hover {
+  transform: scale(1.2);
+  color: darkred;
+}
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.select {
+  padding: 0.4rem 0.6rem;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: var(--brand-Epsilon);
+  color: var(--brand-Gamma);
+  min-width: 120px;
+  flex-shrink: 0;
+}
+
+.search {
+  padding: 0.4rem 0.6rem;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  color: var(--brand-Gamma);
+  flex: 1;
+
+  background-color: var(--brand-Epsilon);
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  width: 100%;
+  margin-bottom: 0.1rem;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.search:focus {
+  border: 1px solid var(--brand-Epsilon);
+  background-color: var(--brand-Gamma);
+  border-color: var(--brand-Epsilon);
+  color: var(--brand-Epsilon);
+  font-weight: 800;
+  outline: none;
+}
+
+.search::placeholder {
+  color: var(--brand-Gamma);
+  opacity: 1;
+}
+
+.userListWrapper {
+  height: 260px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: var(--brand-Epsilon);
+  padding: 0.5rem;
+}
+
+.userListWrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.userListWrapper::-webkit-scrollbar-thumb {
+  background-color: var(--brand-Gamma);
+  border-radius: 4px;
+}
+
 .userList {
   list-style: none;
   padding: 0;
-  margin: 16px 0 0 0;
-  max-height: 300px;
-  overflow-y: auto;
-  border: 1px solid #eee;
-  border-radius: 8px;
-  background: #fafafa;
+  margin: 0;
 }
 
 .userItem {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 10px 16px;
-  border-bottom: 1px solid #eee;
+  padding: 8px 10px;
+  border-bottom: 1px solid #ccc;
   font-size: 16px;
-  color: #333;
+  color: var(--brand-Gamma);
 }
 
 .userItem:last-child {
   border-bottom: none;
-}
-
-.userItem span {
-  flex: 1;
-  word-break: break-word;
 }
