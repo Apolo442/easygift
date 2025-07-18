@@ -1,4 +1,4 @@
-import React, { use } from "react";
+import React, { useEffect } from "react";
 import styles from "./styles.module.css";
 import { useState } from "react";
 
@@ -6,9 +6,15 @@ import { useState } from "react";
 import { auth } from "@/services/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { db } from "@/services/firebase";
-import { doc, setDoc, deleteDoc } from "firebase/firestore";
-import { useEffect } from "react";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  deleteDoc,
+  collection,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 
 function AdminManager() {
   const [name, setName] = useState("");
@@ -65,38 +71,40 @@ function AdminManager() {
       }
     } finally {
       setLoading(false);
+      fetchUsers();
     }
   };
 
+  const fetchUsers = async () => {
+    setLoadingUsers(true);
+    let q;
+    if (filter === "admins") {
+      q = query(collection(db, "users"), where("isAdmin", "==", true));
+    } else if (filter === "nonAdmins") {
+      q = query(collection(db, "users"), where("isAdmin", "==", false));
+    } else {
+      q = collection(db, "users");
+    }
+    const snapshot = await getDocs(q);
+    const userList = snapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        name: data.name ?? "",
+        email: data.email ?? "",
+        isAdmin: data.isAdmin ?? false,
+        createdAt: data.createdAt
+          ? data.createdAt instanceof Date
+            ? data.createdAt
+            : new Date(data.createdAt)
+          : undefined,
+      };
+    });
+    setUsers(userList);
+    setLoadingUsers(false);
+  };
+
   useEffect(() => {
-    const fetchUsers = async () => {
-      setLoadingUsers(true);
-      let q;
-      if (filter === "admins") {
-        q = query(collection(db, "users"), where("isAdmin", "==", true));
-      } else if (filter === "nonAdmins") {
-        q = query(collection(db, "users"), where("isAdmin", "==", false));
-      } else {
-        q = collection(db, "users");
-      }
-      const snapshot = await getDocs(q);
-      const userList = snapshot.docs.map((doc) => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          name: data.name ?? "",
-          email: data.email ?? "",
-          isAdmin: data.isAdmin ?? false,
-          createdAt: data.createdAt
-            ? data.createdAt instanceof Date
-              ? data.createdAt
-              : new Date(data.createdAt)
-            : undefined,
-        };
-      });
-      setUsers(userList);
-      setLoadingUsers(false);
-    };
     fetchUsers();
   }, [filter]);
 
@@ -107,8 +115,6 @@ function AdminManager() {
         <div className={styles.createBox}>
           <h1 className={styles.subtitle}>Criar usuário</h1>
           <form onSubmit={handleSignup} className={styles.form}>
-            <h1 className={styles.title}>Criar Conta</h1>
-
             {error && <p className={styles.error}>{error}</p>}
 
             <input

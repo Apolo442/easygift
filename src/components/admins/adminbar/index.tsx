@@ -2,31 +2,27 @@ import React from "react";
 import styles from "./styles.module.css";
 import { useState } from "react";
 import Catalog from "@/components/admins/catalog";
-import Event from "@/components/admins/evento";
+import Event from "@/components/admins/event";
 import AdminManager from "@/components/admins/adminmanager";
-import Gallery from "@/components/admins/gallery";
-import Introducao from "@/components/admins/introducao";
+import Introducao from "@/components/admins/intro";
 
 function Adminbar() {
-  const [step, setStep] = useState<
-    "catalog" | "event" | "admins" | "gallery" | "intro"
-  >("intro");
+  const [step, setStep] = useState<"catalog" | "event" | "admins" | "intro">(
+    "intro"
+  );
 
   return (
     <div className={styles.main}>
       <h1 className={styles.title}>Gerenciar plataforma</h1>
       <div className={styles.bar}>
         <button onClick={() => setStep("catalog")} className={styles.button}>
-          Itens ao catálogo
+          Itens do catálogo
         </button>
         <button onClick={() => setStep("event")} className={styles.button}>
           Informações do evento
         </button>
         <button onClick={() => setStep("admins")} className={styles.button}>
           Administradores da plataforma
-        </button>
-        <button onClick={() => setStep("gallery")} className={styles.button}>
-          Galeria do evento
         </button>
       </div>
       <div className={styles.container}>
@@ -35,7 +31,6 @@ function Adminbar() {
           {step === "catalog" && <Catalog />}
           {step === "event" && <Event />}
           {step === "admins" && <AdminManager />}
-          {step === "gallery" && <Gallery />}
         </div>
       </div>
     </div>
