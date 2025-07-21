@@ -134,6 +134,7 @@
   border-bottom: 1px solid #ccc;
   font-size: 14px;
   color: var(--brand-Alpha);
+  cursor: pointer;
 }
 
 .deleteButton {

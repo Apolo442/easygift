@@ -6,12 +6,15 @@
   /*  */
   --brand-Gamma: #f8f8f8;
   --brand-Epsilon: hsl(235, 17%, 50%);
+  --brand-Epsilons: #222831;
   --brand-Zeta: #98a1bc;
   --brand-Eta: #ded3c4;
   --brand-Theta: #f4ebd3;
   /* teste */
-  --brand-Zeta: #393e46;
-  --brand-Epsilon: #222831;
+  --brand-Zeta: #a44750cf;
+  --brand-RedA: #9b363f;
+  --brand-RedB: #9c3942;
+  --brand-Epsilon: #a44750;
   /*  */
   --brand-Error: #ef4444;
   --brand-Black: #1f1f1f;

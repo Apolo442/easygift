@@ -208,6 +208,15 @@ function Catalog() {
                 ? "Salvar Edição"
                 : "Cadastrar"}
             </button>
+            {isEditing && (
+              <button
+                type="button"
+                onClick={resetForm}
+                className={styles.button}
+              >
+                Voltar
+              </button>
+            )}
           </form>
         </section>
 

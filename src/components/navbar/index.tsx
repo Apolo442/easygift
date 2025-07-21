@@ -53,7 +53,7 @@ function Navbar() {
 
       if (docSnap.exists()) {
         const data = docSnap.data();
-        console.log("isAdmin?", data.isAdmin);
+        console.log("isAdmin?", data);
         setIsAdmin(data.isAdmin === true);
       } else {
         console.log("nonAdmin");
@@ -73,9 +73,7 @@ function Navbar() {
           <Link className={styles.button} href="/presentes">
             Presentes
           </Link>
-          <Link className={styles.button} href="/evento">
-            Evento
-          </Link>
+
           <Link className={styles.button} href="/confirmar">
             Confirmar Presença
           </Link>

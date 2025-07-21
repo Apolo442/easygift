@@ -1,41 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
-import { useState } from "react";
 
 // Firebase
-import { auth } from "@/services/firebase";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { db } from "@/services/firebase";
 import {
   doc,
-  setDoc,
   deleteDoc,
   collection,
   getDocs,
   query,
   where,
+  updateDoc,
 } from "firebase/firestore";
 
+type User = {
+  id: string;
+  name: string;
+  email: string;
+  isAdmin: boolean;
+  createdAt?: Date;
+};
+
 function AdminManager() {
+  const [isAdmin, setIsAdmin] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  //
-  type User = {
-    id: string;
-    name: string;
-    email: string;
-    isAdmin: boolean;
-    createdAt?: Date;
-  };
+
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState<"all" | "admins" | "nonAdmins">("all");
   const [loadingUsers, setLoadingUsers] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  //
 
   const handleDelete = async (userId: string) => {
     const confirm = window.confirm("Deseja mesmo remover o usuário?");
@@ -46,32 +44,6 @@ function AdminManager() {
       setUsers((prev) => prev.filter((u) => u.id !== userId));
     } catch (error) {
       console.error("Erro ao apagar usuário:", error);
-    }
-  };
-
-  const handleSignup = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-
-    try {
-      // Registro no Auth
-      const cred = await createUserWithEmailAndPassword(auth, email, password);
-      await updateProfile(cred.user, { displayName: name });
-      // Registro no Firestore
-      await setDoc(doc(db, "users", cred.user.uid), {
-        name,
-        email,
-        isAdmin: true,
-        createdAt: new Date(),
-      });
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      }
-    } finally {
-      setLoading(false);
-      fetchUsers();
     }
   };
 
@@ -104,49 +76,92 @@ function AdminManager() {
     setLoadingUsers(false);
   };
 
+  const handleEditClick = (user: User) => {
+    setSelectedUser(user);
+    setName(user.name);
+    setEmail(user.email);
+    setIsAdmin(user.isAdmin);
+  };
+
+  const handleSaveEdit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedUser) return;
+
+    try {
+      const userRef = doc(db, "users", selectedUser.id);
+      await updateDoc(userRef, { name, isAdmin });
+
+      setUsers((prev) =>
+        prev.map((item) =>
+          item.id === selectedUser.id ? { ...item, name, isAdmin } : item
+        )
+      );
+      resetForm();
+    } catch (error) {
+      console.log("Erro ao atualizar o item", error);
+    }
+  };
+
+  const resetForm = () => {
+    setName("");
+    setEmail("");
+    setIsAdmin(false);
+    setSelectedUser(null);
+  };
+
   useEffect(() => {
     fetchUsers();
-  }, [filter]);
+  }, []);
 
   return (
     <div className={styles.main}>
       <h1 className={styles.title}>Adicione ou Remova usuários</h1>
       <div className={styles.container}>
         <div className={styles.createBox}>
-          <h1 className={styles.subtitle}>Criar usuário</h1>
-          <form onSubmit={handleSignup} className={styles.form}>
-            {error && <p className={styles.error}>{error}</p>}
+          <h1 className={styles.subtitle}>Editar usuário</h1>
 
-            <input
-              type="text"
-              placeholder="Nome"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className={styles.input}
-              required
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className={styles.input}
-              required
-            />
-            <input
-              type="password"
-              placeholder="Senha"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className={styles.input}
-              required
-            />
+          {!selectedUser ? (
+            <p className={styles.subtitle}>Selecione um usuário para editar</p>
+          ) : (
+            <form onSubmit={handleSaveEdit} className={styles.form}>
+              {error && <p className={styles.error}>{error}</p>}
 
-            <button type="submit" disabled={loading} className={styles.button}>
-              {loading ? "Criando..." : "Cadastrar"}
-            </button>
-          </form>
+              <input
+                type="text"
+                placeholder="Nome"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className={styles.input}
+                required
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                className={styles.input}
+                disabled
+              />
+              <select
+                value={isAdmin ? "true" : "false"}
+                onChange={(e) => setIsAdmin(e.target.value === "true")}
+                className={styles.input}
+                required
+              >
+                <option value="false">Usuário comum</option>
+                <option value="true">Administrador</option>
+              </select>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className={styles.button}
+              >
+                {loading ? "Salvando..." : "Salvar edição"}
+              </button>
+            </form>
+          )}
         </div>
+
         <div className={styles.deleteBox}>
           <h1 className={styles.subtitle}>Apagar usuário</h1>
 
@@ -187,8 +202,10 @@ function AdminManager() {
                   .sort((a, b) => a.name.localeCompare(b.name))
                   .map((user) => (
                     <li key={user.id} className={styles.userItem}>
-                      <span>{user.name}</span>
-                      <span>({user.email})</span>
+                      <div onClick={() => handleEditClick(user)}>
+                        <span>{user.name}</span>
+                        <span>({user.email})</span>
+                      </div>
                       <button
                         className={styles.deleteButton}
                         onClick={() => handleDelete(user.id)}

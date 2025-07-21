@@ -1,0 +1,114 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+}
+
+.form {
+  background-color: var(--brand-Epsilon);
+  width: 415px;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.title {
+  font-size: 32px;
+  color: var(--brand-Gamma);
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.success {
+  color: var(
+    --brand-green-success,
+    #28a745
+  ); /* Assuming a success color variable, with a fallback */
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.error {
+  color: var(--brand-red-error);
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.input {
+  border: 1px solid #d1d5db;
+  background-color: var(--brand-Gamma);
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.button {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--brand-Epsilon);
+  font-size: 16px;
+  font-family: "DM Mono", monospace;
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid var(--brand-Gamma);
+  background-color: var(--brand-Gamma);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  width: 100%;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.button:hover {
+  color: var(--brand-Gamma);
+  border-color: var(--brand-Gamma);
+  background-color: var(--brand-grey);
+}
+
+.button:disabled {
+  background-color: #cccccc;
+  border-color: #cccccc;
+  cursor: not-allowed;
+  color: #666666;
+}
+
+.backbutton {
+  background-color: var(--brand-Epsilon);
+  color: var(--brand-Delta);
+  padding: 0.5rem 0;
+  border-radius: 0.5rem;
+  border: 3px solid var(--brand-Epsilon);
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  font-size: 20px;
+  font-family: "DM Mono", monospace;
+  width: 180px;
+  min-width: 140px;
+  max-width: 220px;
+  text-align: center;
+  box-shadow: 3px 3px 0px rgba(35, 35, 35, 4);
+}
+
+.backbutton:hover {
+  color: var(--brand-Delta);
+  border-color: var(--brand-Epsilon);
+  background-color: var(--brand-Zeta);
+  border: 3px solid var(--brand-Epsilon);
+  box-shadow: 5px 4px 0px rgba(35, 35, 35, 4);
+}
